@@ -7,3 +7,8 @@
 meteor-platform
 autopublish
 insecure
+mrt:fullcalendar
+mrt:bootstrap-3
+accounts-base
+accounts-password
+accounts-ui
