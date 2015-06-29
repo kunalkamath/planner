@@ -1,4 +1,16 @@
 CalEvent = new Mongo.Collection('calevent');
+Router.route('/cal', function() {
+  this.render('main');
+}, {name: 'cal'
+});
+Router.route('/', function() {
+  this.render('home');
+}, {name: 'home'
+});
+Router.configure({
+  layoutTemplate:"menu"
+});
+
 
 if (Meteor.isClient) {
 
@@ -8,17 +20,25 @@ if (Meteor.isClient) {
     },
     'click .updateClick': function(event, template){
       var title = template.find('#title').value;
-      Meteor.call('updateTitle', Session.get('editing_event'), title);
-      Session.set('editing_event', null);
+      if(title) {
+        Meteor.call('updateTitle', Session.get('editing_event'), title);
+        Session.set('editing_event', null);
+      }
     },
     'keypress .updateEnter': function(evt, template){
-      if (evt.which === 13){
-        var title = template.find('#title').value;
+      var title = template.find('#title').value;
+      if (evt.which === 13 && title){
         Meteor.call('updateTitle', Session.get('editing_event'), title);
         Session.set('editing_event', null);
       }
     }
-  });
+  })
+
+  Template.menu.helpers({
+      isCurrentPage: function(pageName){
+          return Router.current().route.getName() == pageName
+      }
+  })
 
   Template.main.helpers({
     editing_event: function(){
@@ -43,12 +63,10 @@ if (Meteor.isClient) {
         calendarEvent.owner = Meteor.userId();
         Meteor.call('saveCalendarEvent', calendarEvent);
         // Added below in attempt to open event modal upon day click//
-        //Session.set('editing_event', calendarEvent._id);
-        //$('#title').val(calendarEvent.title);
+        // Session.set('editing_event', calendarEvent._id);
       },
       eventClick: function(calEvent, jsEvent, view) {
         Session.set('editing_event', calEvent._id);
-        $('#title').val(calEvent.title);
       },
       eventDrop: function(reqEvent){
         Meteor.call('moveEvent', reqEvent);

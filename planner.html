@@ -3,13 +3,6 @@
 </head>
 
 <body>
-  {{#if currentUser}}
-    {{> main}}
-  {{else}}
-    <div class="container">
-      {{> loginButtons}}
-    </div>
-  {{/if}}
 </body>
 
 <template name="main">
@@ -17,11 +10,7 @@
     {{> dialog}}
   {{/if}}
   <div class="container">
-    <h2>Cal</h2>
-    {{> loginButtons}}
-    <div id="calendar">
-
-    </div>
+    <div id="calendar"></div>
   </div>
 </template>
 
@@ -46,4 +35,45 @@
       </div>
     </div>
   </div>
+</template>
+
+
+<template name="menu">
+  <nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand">PimpMyCal</a>
+      </div>
+      {{#if currentUser}}
+      <div class="collapse navbar-collapse" id="navbar">
+        <ul class="nav navbar-nav">
+          <li class="{{#if isCurrentPage 'home'}}active{{/if}}"><a href="{{pathFor route='home'}}">Home</a></li>
+          <li class="{{#if isCurrentPage 'cal'}}active{{/if}}"><a href="{{pathFor route='cal'}}">Calendar</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-default">
+          <li><a href="#">{{> loginButtons}}</a></li>
+        </ul>
+      </div>
+      {{else}}
+      <div class="collapse navbar-collapse" id="navbar">
+        <ul class="nav navbar-nav">
+          <li><a>{{> loginButtons}}</a></li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+      {{/if}}
+    </div><!-- /.container-fluid -->
+  </nav>
+  {{> yield}}
+</template>
+
+
+<template name="home">
+  <h1>Welcome to PimpMyCal</h1>
+  <h3>I'm ya boi Xzibit</h3>
 </template>

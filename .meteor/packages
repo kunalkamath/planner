@@ -12,3 +12,4 @@ mrt:bootstrap-3
 accounts-base
 accounts-password
 accounts-ui
+iron:router
